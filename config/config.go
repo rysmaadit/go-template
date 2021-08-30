@@ -8,11 +8,12 @@ import (
 )
 
 type Config struct {
-	AppName     string
-	AppPort     int
-	LogLevel    string
-	Environment string
-	JWTSecret   string
+	AppName      string
+	AppPort      int
+	LogLevel     string
+	Environment  string
+	JWTSecret    string
+	RedisAddress string
 }
 
 func Init() *Config {
@@ -25,11 +26,12 @@ func Init() *Config {
 	log.SetOutput(os.Stdout)
 
 	appConfig := &Config{
-		AppName:     GetString("APP_NAME"),
-		AppPort:     GetInt("APP_PORT"),
-		LogLevel:    GetString("LOG_LEVEL"),
-		Environment: GetString("ENVIRONMENT"),
-		JWTSecret:   GetString("JWT_SECRET"),
+		AppName:      GetString("APP_NAME"),
+		AppPort:      GetInt("APP_PORT"),
+		LogLevel:     GetString("LOG_LEVEL"),
+		Environment:  GetString("ENVIRONMENT"),
+		JWTSecret:    GetString("JWT_SECRET"),
+		RedisAddress: GetString("REDIS_ADDRESS"),
 	}
 
 	return appConfig
