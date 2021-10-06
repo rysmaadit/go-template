@@ -19,7 +19,6 @@ func GetToken(authService service.AuthServiceInterface) http.HandlerFunc {
 		}
 
 		responder.NewHttpResponse(r, w, http.StatusOK, resp, nil)
-		return
 	}
 }
 

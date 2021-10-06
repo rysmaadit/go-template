@@ -1,34 +1,23 @@
 package router
 
 import (
-	"context"
 	"net/http"
 	"os"
 
-	"github.com/rysmaadit/go-template/constant"
-	"github.com/sirupsen/logrus"
-
-	"github.com/go-kit/kit/log"
-	"github.com/gorilla/mux"
-
-	"github.com/rysmaadit/go-template/app"
 	"github.com/rysmaadit/go-template/handler"
-	"github.com/rysmaadit/go-template/middleware"
 	"github.com/rysmaadit/go-template/service"
+
+	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
 )
 
-func NewRouter(dependencies app.Dependencies) http.Handler {
+func NewRouter(dependencies service.Dependencies) http.Handler {
 	r := mux.NewRouter()
 
 	setAuthRouter(r, dependencies.AuthService)
-	ctx := context.Background()
 
-	//loggedRouter := handlers.LoggingHandler(os.Stdout, r)
-	logger := log.NewLogfmtLogger(log.NewSyncWriter(os.Stdout))
-	r.Use(middleware.LoggingMiddleware(logger, ctx))
-
-	logrus.Info(ctx.Value(constant.RequestID))
-	return r
+	loggedRouter := handlers.LoggingHandler(os.Stdout, r)
+	return loggedRouter
 }
 
 func setAuthRouter(router *mux.Router, dependencies service.AuthServiceInterface) {
